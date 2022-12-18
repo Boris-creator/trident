@@ -3,11 +3,13 @@ use std::env;
 
 mod get_stats;
 use get_stats::{fetch, print_stats};
+mod get_sirens;
 mod show_glory;
 use show_glory::trident;
 enum Command {
     Trident,
     Stats,
+    Sirens,
     Help,
     Other,
 }
@@ -39,6 +41,8 @@ async fn main() {
         action = Command::Stats;
     } else if command == "help" {
         action = Command::Help;
+    } else if command == "siren" {
+        action = Command::Sirens;
     } else {
         action = Command::Other;
     }
@@ -59,15 +63,30 @@ async fn main() {
                 Err(err) => println!("{}", err),
             }
         }
+        Command::Sirens => {
+            let response = get_sirens::fetch().await;
+            match response {
+                Ok(data) => {
+                    //let actual_data = data.states;
+                    get_sirens::print_sirens(get_sirens::filter_regions(data));
+                }
+                Err(err) => println!("{}", err),
+            }
+        }
         Command::Help => {
             println!("{0: <10} {1: <10}", "command", "action");
             println!(
                 "{0: <10} {1: <10}",
-            "stats",  "display the up-to-date data on the Russian invasion of Ukraine according to https://russianwarship.rip/");
+            "stats",  "Display the up-to-date data on the Russian invasion of Ukraine according to https://russianwarship.rip/");
             println!(
                 "{0: <10} {1: <10}",
-                "trident", "draw the National Emblem of Ukraine."
-            )
+                "siren", "List the areas in which there is now an air raid alert. Using https://vadymklymenko.com/map/"
+            );
+            println!(
+                "{0: <10} {1: <10}",
+                "trident", "Draw the National Emblem of Ukraine."
+            );
+            println!("Glory to Ukraine")
         }
         Command::Other => {
             println!("Unknown argument. You can use 'help' command for more information.")
