@@ -2,7 +2,7 @@ A tiny command-line tool made by in the process of learning Rust. Maybe it is sh
 
 ## Community
 
-<a href="https://stand-with-ukraine.pp.ua/"><img src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct.svg" width="1700"></a>
+<a href="https://stand-with-ukraine.pp.ua/"><img src="https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg" width="1700"></a>
 
 
 ## Usage
