@@ -1,4 +1,4 @@
-A tiny command-line tool made by in the process of learning Rust. Maybe it is shit code!
+A tiny command-line tool made by me in the process of learning Rust. Maybe it is shit code!
 
 ## Community
 
