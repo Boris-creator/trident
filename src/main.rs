@@ -45,7 +45,7 @@ async fn main() {
         action = Command::Sirens;
     } else {
         action = Command::Other;
-    }
+    } //I would like to do it without else if
     match action {
         Command::Trident => trident(),
         Command::Stats => {
