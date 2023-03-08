@@ -78,6 +78,6 @@ pub fn print_sirens(alerts: Alerts) {
     for district in alerts.districts {
         output.push_str(&format!("{}, {}\n", district.state, district.title));
     }
-    control::set_virtual_terminal(true).unwrap();
+    //control::set_virtual_terminal(true).unwrap();
     println!("{}", output.red());
 }

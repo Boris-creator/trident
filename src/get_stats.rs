@@ -1,37 +1,23 @@
 use reqwest;
 use serde::Deserialize;
 //use std::collections::HashMap;
-use tabled::{Table, Tabled, Width};
+use crate::text_to_image::draw;
 
-#[derive(Tabled, Debug, Deserialize)]
+#[derive(Debug, Deserialize)]
 pub struct Stats {
-    #[tabled(rename = "orcs")]
     personnel_units: i32,
-    #[tabled(rename = "artillery systems")]
     artillery_systems: i32,
-    #[tabled(rename = "helicopters")]
     helicopters: i32,
-    #[tabled(rename = "warships/cutters")]
     warships_cutters: i32,
-    #[tabled(rename = "cruise missiles")]
     cruise_missiles: i32,
-    #[tabled(rename = "special military equip")]
     special_military_equip: i32,
-    #[tabled(rename = "vehicles and fuel tanks")]
     vehicles_fuel_tanks: i32,
-    #[tabled(rename = "MLRS")]
     mlrs: i32,
-    #[tabled(rename = "AA warfare systems")]
     aa_warfare_systems: i32,
-    #[tabled(rename = "ATGM/SRBM systems")]
     atgm_srbm_systems: i32,
-    #[tabled(rename = "tanks")]
     tanks: i32,
-    #[tabled(rename = "UAV systems")]
     uav_systems: i32,
-    #[tabled(rename = "planes")]
     planes: i32,
-    #[tabled(rename = "AFV")]
     armoured_fighting_vehicles: i32,
 }
 #[derive(Debug, Deserialize)]
@@ -63,9 +49,44 @@ pub async fn fetch() -> Result<Losses, String> {
         }
         Err(_) => Err(String::from("Our service is unavailable for you now")),
     }
+    /*
+    let mock: Result<bool, &str> = Ok(true);
+    match mock {
+        Ok(_) => {
+            let data: Losses = serde_json::from_str(
+                "{\"message\":\"The data were fetched successfully.\",\"data\":{\"day\":297,\"resource\":\"https:\\/\\/www.facebook.com\\/MinistryofDefence.UA\\/posts\\/pfbid0J6FyCXR4hbuQ1HDDvvCXdwhjU72eg7CJ9xUP47onFBvF2xGs6W5MaGtfBm2eas7Bl\",\"stats\":{\"personnel_units\":97690,\"tanks\":2985,\"armoured_fighting_vehicles\":5958,\"artillery_systems\":1947,\"mlrs\":410,\"aa_warfare_systems\":211,\"planes\":281,\"helicopters\":264,\"vehicles_fuel_tanks\":4577,\"warships_cutters\":16,\"cruise_missiles\":653,\"uav_systems\":1648,\"special_military_equip\":174,\"atgm_srbm_systems\":4},\"increase\":{\"personnel_units\":420,\"tanks\":5,\"armoured_fighting_vehicles\":6,\"artillery_systems\":1,\"mlrs\":0,\"aa_warfare_systems\":0,\"planes\":0,\"helicopters\":0,\"vehicles_fuel_tanks\":14,\"warships_cutters\":0,\"cruise_missiles\":61,\"uav_systems\":0,\"special_military_equip\":2,\"atgm_srbm_systems\":0}}}",
+            )
+                .unwrap();
+            Ok(data)
+        }
+        Err(_) => Err(String::from("Our service is unavailable for you now")),
+    }
+    */
 }
 
-pub fn print_stats(data: Data) -> (String, i32) {
-    let stats = Vec::from([data.stats]);
-    (Table::new(stats).with(Width::wrap(300)).to_string(), data.day)
+pub fn print_stats(data: Data) {
+    let mut table = Vec::new();
+    table.push(("orcs", data.stats.personnel_units));
+    table.push(("artillery systems", data.stats.artillery_systems));
+    table.push(("helicopters", data.stats.helicopters));
+    table.push(("warships/cutters", data.stats.warships_cutters));
+    table.push(("cruise missiles", data.stats.cruise_missiles));
+    table.push(("special military equip", data.stats.special_military_equip));
+    table.push(("vehicles and fuel tanks", data.stats.vehicles_fuel_tanks));
+    table.push(("MLRS", data.stats.mlrs));
+    table.push(("AA warfare systems", data.stats.aa_warfare_systems));
+    table.push(("ATGM/SRBM systems", data.stats.atgm_srbm_systems));
+    table.push(("tanks", data.stats.tanks));
+    table.push(("UAV systems", data.stats.uav_systems));
+    table.push(("planes", data.stats.planes));
+    table.push(("AFV", data.stats.armoured_fighting_vehicles));
+
+    draw(
+        [
+            format!("The fascists' losses on the {} day", data.day),
+            String::from("of the war amounted to:"),
+        ]
+        .to_vec(),
+        table,
+    );
 }

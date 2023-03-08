@@ -30,7 +30,7 @@ pub fn trident() {
             println!("Your terminal is too narrow for our wide plans!");
             return;
         }
-        control::set_virtual_terminal(true).unwrap();
+        //control::set_virtual_terminal(true).unwrap();
         for row in schema {
             for _i in 1..x / line_height {
                 //let mut line = String::new();
